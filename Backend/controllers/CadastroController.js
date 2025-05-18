@@ -1,16 +1,17 @@
+const Cadastro = require("../models/Cadastro");
 var cadastro = require("../models/Cadastro");
 
 class CadastroController{
     async create(req, res){
-        var {idCadastro,nome,sobrenome,documento,endereco,cep} = req.body;
+        var {idCadastro,usuario,nome,sobrenome,documento,docProfSaude,endereco,cep} = req.body;
         
-        if(IdCadastro == undefined){
+        if(idCadastro == undefined){
             res.status(400);
             res.json({err: "O codigo é inválido!"})
             return;
         }
 
-        var idCadastroExists = await User.findById(idCadastro);
+        var idCadastroExists = await cadastro.findById(idCadastro);
 
         if(idCadastroExists){
             res.status(406);
@@ -19,7 +20,7 @@ class CadastroController{
         }
 
         
-        await cadastro.new(idCadastro,nome,sobrenome,documento,endereco,cep);
+        await cadastro.new(idCadastro,usuario,nome,sobrenome,documento,docProfSaude,endereco,cep);
         
         res.status(200);
         res.send("Tudo OK!");
@@ -44,8 +45,8 @@ class CadastroController{
     }
 
     async edit(req, res){
-        var {idUsuario, email, senha , tipoUsuario} = req.body;
-        var result = await cadastro.update(idCadastro,nome,sobrenome,documento,endereco,cep);
+        var {idCadastro,usuario,nome,sobrenome,documento,docProfSaude,endereco,cep} = req.body;
+        var result = await cadastro.update(idCadastro,usuario,nome,sobrenome,documento,docProfSaude,endereco,cep);
         if(result != undefined){
             if(result.status){
                 res.status(200);
@@ -63,7 +64,7 @@ class CadastroController{
     async remove(req, res){
         var idCadastro = req.params.idCadastro;
 
-        var result = await User.delete(idCadastro);
+        var result = await cadastro.delete(idCadastro);
 
         if(result.status){
             res.status(200);

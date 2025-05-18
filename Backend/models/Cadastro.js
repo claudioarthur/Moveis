@@ -3,7 +3,7 @@ var knex = require("../database/connection");
 class Cadastro{
     async findAll(){
         try{
-            var result = await knex.select(["idCadastro","nome","sobrenome","documento","endereco","cep"]).table("cadastros");
+            var result = await knex.select(["idCadastro","usuario","nome","sobrenome","documento","docProfSaude","docProfSaude","endereco","cep"]).table("cadastros");
             return result;
         }catch(err){
             console.log(err);
@@ -13,7 +13,7 @@ class Cadastro{
 
     async findById(idCadastro){
         try{
-            var result = await knex.select(["idCadastro","nome","sobrenome","documento","endereco","cep"]).where({idUsuario:idCadastro}).table("cadastro");
+            var result = await knex.select(["idCadastro","usuario","nome","sobrenome","documento","docProfSaude","endereco","cep"]).where({idCadastro:idCadastro}).table("cadastros");
             
             if(result.length > 0){
                 return result[0];
@@ -27,15 +27,15 @@ class Cadastro{
         }
     }
 
-    async new(idCadastro,nome,sobrenome,documento,endereco,cep){
+    async new(idCadastro,usuario,nome,sobrenome,documento,docProfSaude,endereco,cep){
         try{
-            var hash = await bcrypt.hash(senha, 10);
-            await knex.insert({idCadastro,nome,sobrenome,documento,endereco,cep}).table("cadastros");
+            
+            await knex.insert({idCadastro,usuario,nome,sobrenome,documento,docProfSaude,endereco,cep}).table("cadastros");
         }catch(err){
             console.log(err);
         }
     }   
-    async update(idCadastro,nome,sobrenome,documento,endereco,cep){
+    async update(idCadastro,usuario,nome,sobrenome,documento,docProfSaude,endereco,cep){
 
         var cadastro = await this.findById(idCadastro);
 
@@ -55,7 +55,7 @@ class Cadastro{
             }
 
             try{
-                await knex.update({idCadastro,nome,sobrenome,documento,endereco,cep}).where({idCadastro: idCadastro}).table("cadastros");
+                await knex.update({idCadastro,usuario,nome,sobrenome,documento,docProfSaude,endereco,cep}).where({idCadastro: idCadastro}).table("cadastros");
                 return {status: true}
             }catch(err){
                 return {status: false,err: err}
