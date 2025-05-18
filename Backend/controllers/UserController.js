@@ -81,6 +81,7 @@ class UserController{
         }
     }
 
+    /*
     async recoverPassword(req, res){
         var email = req.body.email;
         var result = await PasswordToken.create(email);
@@ -106,7 +107,7 @@ class UserController{
             res.send("Token inválido!");
         }
     }
-
+    */
     async login(req, res){
         var {email, senha } = req.body;
 
