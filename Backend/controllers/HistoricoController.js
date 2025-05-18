@@ -4,7 +4,7 @@ const Historico = require("../models/Historico");
 
 class HistoricoController{
     async create(req, res){
-        var {idHistorico,IdPaciente,idProfissional,dtAgendamento,dtConfirmacao,dtAtendimento,historico} = req.body;
+        var {idHistorico,Paciente,Profissional,dtAgendamento,dtConfirmacao,dtAtendimento,historico} = req.body;
         
         if(idHistorico == undefined){
             res.status(400);
@@ -12,7 +12,7 @@ class HistoricoController{
             return;
         }
 
-        var idCadastroExists = await idHistorico.findById(idHistorico);
+        var idHistoricoExists = await Historico.findById(idHistorico);
 
         if(idHistoricoExists){
             res.status(406);
@@ -21,7 +21,7 @@ class HistoricoController{
         }
 
         
-        await Historico.new(idHistorico,IdPaciente,idProfissional,dtAgendamento,dtConfirmacao,dtAtendimento,historico);
+        await Historico.new(idHistorico,Paciente,Profissional,dtAgendamento,dtConfirmacao,dtAtendimento,historico);
         
         res.status(200);
         res.send("Tudo OK!");
@@ -46,8 +46,8 @@ class HistoricoController{
     }
 
     async edit(req, res){
-        var {idHistorico,IdPaciente,idProfissional,dtAgendamento,dtConfirmacao,dtAtendimento,historico} = req.body;
-        var result = await Historico.update(idHistorico,IdPaciente,idProfissional,dtAgendamento,dtConfirmacao,dtAtendimento,historico);
+        var {idHistorico,Paciente,Profissional,dtAgendamento,dtConfirmacao,dtAtendimento,historico} = req.body;
+        var result = await Historico.update(idHistorico,Paciente,Profissional,dtAgendamento,dtConfirmacao,dtAtendimento,historico);
         if(result != undefined){
             if(result.status){
                 res.status(200);
